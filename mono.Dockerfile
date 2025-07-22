@@ -1,4 +1,4 @@
-ARG IMAGE="mcr.microsoft.com/dotnet/sdk:8.0-jammy"
+ARG IMAGE="mcr.microsoft.com/dotnet/sdk:9.0-noble"
 FROM $IMAGE
 LABEL author="https://github.com/aBARICHELLO/godot-ci/graphs/contributors"
 
