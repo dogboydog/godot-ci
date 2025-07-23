@@ -2,6 +2,8 @@ ARG IMAGE="mcr.microsoft.com/dotnet/sdk:9.0-noble"
 FROM $IMAGE
 LABEL author="https://github.com/aBARICHELLO/godot-ci/graphs/contributors"
 
+ARG GOLANG_URL="https://go.dev/dl/go1.24.5.linux-amd64.tar.gz"
+ARG GO_INSTALL_PATH="/usr/local"
 USER root
 SHELL ["/bin/bash", "-c"]
 ENV DEBIAN_FRONTEND=noninteractive
@@ -18,9 +20,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wine64 \
     osslsigncode \
     && rm -rf /var/lib/apt/lists/*
+RUN mkdir -p $GO_INSTALL_PATH
+RUN wget $GOLANG_URL && tar -C $GO_INSTALL_PATH -xzf go*.tar.gz
+ENV PATH="${PATH}:$(pwd)/$GO_INSTALL_PATH/go/bin"
 
 # When in doubt, see the downloads page: https://github.com/godotengine/godot-builds/releases/
-ARG GODOT_VERSION="4.4"
+ARG GODOT_VERSION="4.4.1"
 
 # Example values: stable, beta3, rc1, dev2, etc.
 # Also change the `SUBDIR` argument below when NOT using stable.
